@@ -117,6 +117,14 @@ We evaluated three approaches in `anomaly_detection.py`: `IsolationForest`, `Loc
 
 In short, IsolationForest offered the best trade-off between detection quality for global outliers, runtime performance, and operational control. LOF remains available in the repo for local-density checks and further experimentation; OCSVM can be revisited with smaller feature sets or different kernels if boundary-based detection is later required.
 
+**Empirical Model Comparison**
+We ran a side-by-side experiment across contamination rates (0.1%, 0.5%, 1%, 2%, 5%) on a 20,000-record sample. The results show:
+- **Anomaly counts:** IsolationForest and LOF produce nearly identical counts across all contamination levels, while OneClassSVM consistently flags more records (e.g., 296 vs. 199 for IF at 1% contamination).
+- **Agreement (Jaccard similarity):** Very low overlap between IF and LOF predictions (near 0), indicating they find fundamentally different sets of outliers. OneClassSVM overlaps more with IF as contamination increases (up to ~37% at 5%), but finds a distinct boundary-based set.
+- **Visual patterns (PCA):** IsolationForest highlights isolated global outliers; LOF surfaces local density anomalies; OneClassSVM identifies boundary regions. The choice of IF aligns with our goal of detecting unusual call records across the population.
+
+See [model_comparison/anomaly_counts_vs_contamination.png](model_comparison/anomaly_counts_vs_contamination.png) for anomaly counts, [model_comparison/jaccard_vs_contamination.png](model_comparison/jaccard_vs_contamination.png) for pairwise agreement, and [model_comparison/pca_models_cont_0.01.png](model_comparison/pca_models_cont_0.01.png) for visual comparison.
+
 **Troubleshooting**
 - Unicode/escape errors when specifying Windows paths: use `C:/path/to/file.csv` or prefix with `r"C:\path\to\file.csv"`.
 - `FileNotFoundError` when loading model artifacts: ensure the `.pkl` files are present in `model_dir` or pass the correct `model_dir` to `predict_anomalies()`.
