@@ -130,10 +130,4 @@ See [model_comparison/anomaly_counts_vs_contamination.png](model_comparison/anom
 - `FileNotFoundError` when loading model artifacts: ensure the `.pkl` files are present in `model_dir` or pass the correct `model_dir` to `predict_anomalies()`.
 - If LOF warns about duplicate values, increase `n_neighbors` in `anomaly_detection.py`.
 
-**Next steps / suggestions**
-- Add a `requirements.txt` or `pyproject.toml` for reproducible installs.
-- Add unit tests or small example notebooks demonstrating end-to-end prediction.
-- Decide on a policy for unseen categorical labels (e.g., map to `Unknown`, extend encoders, or use `OneHotEncoder` with `handle_unknown='ignore'`).
 
----
-Generated README for sharing with teammates. Edit as needed.
